@@ -1,0 +1,27 @@
+name: Terraform Configurations Integration 
+on:
+  push:
+    branches:
+        - main
+    paths:
+      - 'terraform/**'
+  pull_request:
+    paths:
+      - 'terraform/**'
+
+jobs:
+  call-workflow:
+    strategy:
+      matrix:
+        environment: [development, test, staging]
+    permissions:
+      issues: write
+      pull-requests: write
+      id-token: write
+      contents: read
+    uses: midwest-tape/terraform-actions/.github/workflows/terraform-actions.yml@main
+    with:
+      environment: ${{ matrix.environment }}
+    secrets: inherit          # Needed to pass the password from previous steps in main config .yml(for reusable workflows)
+
+    
