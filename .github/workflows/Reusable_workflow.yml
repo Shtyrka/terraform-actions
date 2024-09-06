@@ -30,7 +30,6 @@ jobs:
       with:
         credentials: https://user:${{ steps.get_workflow_token.outputs.token }}@github.com
 
-
     - name: Configure AWS Credentials
       id: aws_auth
       uses: aws-actions/configure-aws-credentials@v4
