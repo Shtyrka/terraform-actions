@@ -13,6 +13,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      actions: read
+      checks: read
     
     steps:
     - name: Checkout Main
