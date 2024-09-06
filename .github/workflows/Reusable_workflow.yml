@@ -48,7 +48,7 @@ jobs:
       run: terraform -chdir=./terraform/env/${{ inputs.environment }} init
 
     - name: Terraform Plan
-      if: github.event_name == 'pull_request'
+      # if: github.event_name == 'pull_request'
       run: |
         terraform -chdir=./terraform/env/${{ inputs.environment }} plan -no-color > plan_output.txt
         echo "TERRAFORM_PLAN<<EOF" >> $GITHUB_ENV
