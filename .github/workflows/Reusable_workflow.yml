@@ -15,6 +15,7 @@ jobs:
       id-token: write
       actions: read
       checks: read
+      statuses: read
     
     steps:
     - name: Checkout Main
