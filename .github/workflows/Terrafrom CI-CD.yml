@@ -19,7 +19,7 @@ jobs:
       pull-requests: write
       id-token: write
       contents: read
-    uses: ./.github/workflows/terraform-actions.yml
+    uses: ./.github/workflows/Reusable_workflow.yml
     with:
       environment: ${{ matrix.environment }}
     secrets: inherit          # Needed to pass the password from previous steps in main config .yml(for reusable workflows)
