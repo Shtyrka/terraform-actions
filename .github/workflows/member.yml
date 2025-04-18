@@ -1,8 +1,7 @@
 name: Check Org Membership (via GitHub App)
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  workflow_dispatch:
 
 jobs:
   check-membership:
