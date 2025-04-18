@@ -1,0 +1,36 @@
+name: Check Org Membership (via GitHub App)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-membership:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Generate GitHub App token
+      id: generate_token
+      uses: tibdex/github-app-token@v2
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+    - name: Check if PR author is an org member
+      env:
+        GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+        ORG: ${{ github.repository_owner }}
+        AUTHOR: ${{ github.event.pull_request.user.login }}
+      run: |
+        echo "Checking if $AUTHOR is a member of $ORG..."
+
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/orgs/$ORG/members/$AUTHOR)
+
+        if [ "$RESPONSE" != "204" ]; then
+          echo "::error::User $AUTHOR is not a member of $ORG"
+          exit 1
+        else
+          echo "✅ $AUTHOR is a verified member of $ORG"
+        fi
