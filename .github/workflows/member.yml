@@ -21,28 +21,45 @@ jobs:
         AUTHOR: ${{ github.event.pull_request.user.login }}
         TEAM: devops
       run: |
+        # echo "Checking if $AUTHOR is a member of team $TEAM in org $ORG"
+
+        # # TEAM_SLUG=$(echo "$TEAM" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
+        # # curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+        # # -H "Accept: application/vnd.github+json" \
+        # # https://api.github.com/orgs/$ORG/teams
+
+
+
+
+
+        # RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+        #   -H "Authorization: Bearer $GITHUB_TOKEN" \
+        #   -H "Accept: application/vnd.github.v3+json" \
+        #   https://api.github.com/teams/12828425/memberships/$AUTHOR)
+
+        # if [ "$RESPONSE" != "204" ]; then
+        #   echo "::error::User $AUTHOR is not a member of $ORG"
+        #   exit 1
+        # else
+        #   echo "✅ $AUTHOR is a verified member of $ORG"
+        # fi
+
+
+
         echo "Checking if $AUTHOR is a member of team $TEAM in org $ORG"
 
-        # TEAM_SLUG=$(echo "$TEAM" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
-
-        # curl -H "Authorization: Bearer $GITHUB_TOKEN" \
-        # -H "Accept: application/vnd.github+json" \
-        # https://api.github.com/orgs/$ORG/teams
-
-
-
-
+        TEAM_SLUG=$(echo "$TEAM" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+        echo "Evaluated slug: $TEAM_SLUG"
 
         RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/teams/12828425/memberships/$AUTHOR)
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/orgs/$ORG/teams/$TEAM_SLUG/memberships/$AUTHOR)
 
-        if [ "$RESPONSE" != "204" ]; then
-          echo "::error::User $AUTHOR is not a member of $ORG"
+        if [ "$RESPONSE" != "200" ]; then
+          echo "::error::User $AUTHOR is NOT a member of team $TEAM"
           exit 1
         else
-          echo "✅ $AUTHOR is a verified member of $ORG"
+          echo "✅ $AUTHOR is a valid member of team $TEAM"
         fi
-
-
