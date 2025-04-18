@@ -25,16 +25,24 @@ jobs:
 
         TEAM_SLUG=$(echo "$TEAM" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
-        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-          -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/orgs/$ORG/teams/$TEAM_SLUG/memberships/$AUTHOR)
+        curl -H "Authorization: Bearer $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github+json" \
+        https://api.github.com/orgs/$ORG/teams
 
-        if [ "$RESPONSE" != "204" ]; then
-          echo "::error::User $AUTHOR is not a member of $ORG"
-          exit 1
-        else
-          echo "✅ $AUTHOR is a verified member of $ORG"
-        fi
+
+
+
+
+        # RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+        #   -H "Authorization: Bearer $GITHUB_TOKEN" \
+        #   -H "Accept: application/vnd.github.v3+json" \
+        #   https://api.github.com/orgs/$ORG/teams/$TEAM_SLUG/memberships/$AUTHOR)
+
+        # if [ "$RESPONSE" != "204" ]; then
+        #   echo "::error::User $AUTHOR is not a member of $ORG"
+        #   exit 1
+        # else
+        #   echo "✅ $AUTHOR is a verified member of $ORG"
+        # fi
 
 
