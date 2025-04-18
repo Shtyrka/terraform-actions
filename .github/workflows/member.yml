@@ -36,7 +36,7 @@ jobs:
         RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/orgs/$ORG/teams/12828425/memberships/$AUTHOR)
+          https://api.github.com/teams/12828425/memberships/$AUTHOR)
 
         if [ "$RESPONSE" != "204" ]; then
           echo "::error::User $AUTHOR is not a member of $ORG"
