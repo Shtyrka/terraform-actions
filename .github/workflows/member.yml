@@ -21,6 +21,7 @@ jobs:
         AUTHOR: ${{ github.event.pull_request.user.login }}
         TEAM: devops
       run: |
+        gh pr edit ${{ github.event.pull_request.number }} --add-reviewer Anatolich911
         # echo "Checking if $AUTHOR is a member of team $TEAM in org $ORG"
 
         # # TEAM_SLUG=$(echo "$TEAM" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
