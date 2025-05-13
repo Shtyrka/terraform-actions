@@ -15,7 +15,7 @@
   <distributionManagement>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/YOUR_ORG_OR_USER/repo-a</url>
+      <url>https://maven.pkg.github.com/Shtyrka/repo-a</url>
     </repository>
   </distributionManagement>
 </project>
