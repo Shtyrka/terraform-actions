@@ -6,10 +6,23 @@ on:
 
 jobs:
   build-and-publish:
+    permissions:
+    packages: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Get Token GH App  # Need it in order to write to comment section
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v3  
+          with:
+            application_id: ${{ secrets.GH_APPLICATION_ID }}     # Need create a secret in actions
+            application_private_key: ${{ secrets.GH_APPLICATION_KEY }}
+
+      - name: Extend Git credentials  # For terraform modules to use. Can download modules from git
+        uses: de-vri-es/setup-git-credentials@v2.0.10
+        with:
+          credentials: https://user:${{ steps.get_workflow_token.outputs.token }}@github.com
 
       - name: Set up JDK
         uses: actions/setup-java@v4
